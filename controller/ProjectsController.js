@@ -14,6 +14,20 @@ class Projects {
     }
   }
 
+  static async createAction(req, res, next) {
+    const newAction = {
+      description: req.body.description,
+      notes: req.body.notes,
+      project_id: req.project.id,
+    };
+    try {
+      const newProjectData = await db.insertAction(newAction);
+      return res.status(201).json(newProjectData);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
   static async getOne(req, res) {
     return res.status(200).send(req.project);
   }
