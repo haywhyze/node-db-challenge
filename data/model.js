@@ -17,13 +17,29 @@ async function getProjectById(id) {
   return project;
 }
 
+async function getActionById(id) {
+  const action = await db('actions')
+    .where('id', id)
+    .first();
+  action.completed = !!action.completed;
+  return action;
+}
+
 async function insertProject(project) {
   return db('projects')
     .insert(project)
     .then(([id]) => this.getProjectById(id));
 }
 
+async function insertAction(action) {
+  return db('actions')
+    .insert(action)
+    .then(([id]) => this.getActionById(id));
+}
+
 module.exports = {
   getProjectById,
   insertProject,
+  getActionById,
+  insertAction,
 };
