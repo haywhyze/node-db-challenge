@@ -1,6 +1,9 @@
 const express = require('express');
+const helmet = require('helmet');
+const routes = require('./routes');
 
 const app = express();
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -8,6 +11,14 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', async (req, res, next) => {
   res.json({
     message: 'Welcome to NODE DB SPrint Challenge',
+  });
+});
+
+app.use('/api', routes);
+
+app.all('*', (req, res) => {
+  res.status(404).send({
+    message: 'The resource you are looking for does not exist',
   });
 });
 
